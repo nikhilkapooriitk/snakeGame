@@ -1,4 +1,5 @@
 import pygame
+from food import Food
 
 class Snake:
     def __init__(self, x, y):
@@ -7,7 +8,7 @@ class Snake:
         self.direction = "UP"
         self.body = [(x, y), (x, y+1), (x, y+2)]
 
-    def update(self):
+    def update(self, food):
         # Update the snake's position based on its direction
         if self.direction == "UP":
             self.y += 1
@@ -18,9 +19,11 @@ class Snake:
         elif self.direction == "RIGHT":
             self.x += 1
 
-        # Update the snake's body segments
-        self.body.pop()
         self.body.insert(0, (self.x, self.y))
+        # Update the snake's body segments
+        if (food.x, food.y) not in self.body:
+            self.body.pop()
+
 
     def draw(self, screen):
         # Draw the snake to the screen
