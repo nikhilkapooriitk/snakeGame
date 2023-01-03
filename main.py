@@ -2,6 +2,14 @@ import sys
 import pygame
 from snake import Snake
 from food import Food
+from score import Score
+
+
+def restartGame(snake, food, score):
+    snake = Snake(0,0)
+    food = Food(640,480)
+    score.resetScore()
+
 
 # Initialize Pygame
 pygame.init()
@@ -18,6 +26,9 @@ snake = Snake(0, 0)
 
 # Create an instance of the Food object
 food = Food(640, 480)
+
+#Create an instance of Score object
+score = Score()
 
 # Main game loop
 while True:
@@ -42,9 +53,10 @@ while True:
     # Check for a collision between the snake and the wall
     if snake.x < 0 or snake.x > 640 // 20 - 1 or snake.y < 0 or snake.y > 480 // 20 - 1:
         # Restart the game
+        #restartGame(snake= snake, food= food, score= score)
         snake = Snake(0, 0)
         food = Food(640, 480)
-
+        
     #check if snake has bitten itself
     if (snake.x, snake.y) in snake.body[1:]:
         #Restart the game
@@ -55,6 +67,8 @@ while True:
     food.update(snake)
     if food.eaten:
         food = Food(640, 480)
+        score.updateScore()
+        
 
     # Clear the screen
     screen.fill((0, 0, 0))
